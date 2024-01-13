@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { sql } from "@vercel/postgres";
 import { createInvoice } from "@/app/lib/actions";
+import SubmitCreateInvoice from "@/app/ui/SubmitButton";
 
 export default async function CreatePage() {
   const customers = (await sql`SELECT * FROM customers`).rows;
@@ -38,7 +39,7 @@ export default async function CreatePage() {
           <input type="radio" name="status" id="paid" value="paid" required/>
           <label htmlFor="paid">Paid</label>
         </label>
-        <button type="submit">Create</button>
+        <SubmitCreateInvoice />
       </form>
     </>
   );
