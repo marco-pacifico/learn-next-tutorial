@@ -36,6 +36,7 @@ export default async function CreatePage() {
           <input type="radio" name="invoice-status" id="paid" value="paid" />
           <label htmlFor="paid">Paid</label>
         </label>
+        <button type="submit">Create</button>
       </form>
     </>
   );
