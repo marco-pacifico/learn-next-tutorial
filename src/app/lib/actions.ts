@@ -1,11 +1,36 @@
-'use server';
+"use server";
+import { z } from "zod";
+import { sql } from "@vercel/postgres";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+// Create a schema for the form data
+// validate that the data from your form aligns with the expected types in your database
+const FormSchema = z.object({
+  id: z.string(),
+  customerId: z.string(),
+  amount: z.coerce.number(),
+  status: z.enum(["paid", "pending"]),
+  date: z.string(),
+});
+const CreateInvoice = FormSchema.omit({ id: true, date: true });
 
-export async function createInvoice( formData: FormData ) {
-    const rawFormData = {
-        customerId: formData.get('customerId'),
-        amount: formData.get('amount'),
-        status: formData.get('status'),
-    };
+export async function createInvoice(formData: FormData) {
+  const { customerId, amount, status } = CreateInvoice.parse({
+    customerId: formData.get("customerId"),
+    amount: formData.get("amount"),
+    status: formData.get("status"),
+  });
+  const amountInCents = amount * 100;
+  const date = new Date().toISOString().split("T")[0];
 
-    console.log('rawFormData', rawFormData);
-};
+  // Insert the invoice into the database
+  await sql`
+    INSERT INTO invoices (customer_id, amount, status, date)
+    VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
+    `;
+
+    // Revalidate the invoices page
+    revalidatePath("/dashboard/invoices");
+    // Redirect to the invoices page
+    redirect("/dashboard/invoices");
+}
