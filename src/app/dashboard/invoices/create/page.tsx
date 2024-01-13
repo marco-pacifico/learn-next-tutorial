@@ -11,7 +11,7 @@ export default async function CreatePage() {
       <form className="flex flex-col">
         <label htmlFor="customer" className="flex flex-col">
           Customer
-          <select name="customer" id="customer">
+          <select name="customer" id="customer" required>
             <option value="">Select a customer</option>
             {customers.map((customer) => (
               <option key={customer.id} value={customer.name}>
@@ -22,7 +22,7 @@ export default async function CreatePage() {
         </label>
         <label htmlFor="amount">
           Amount
-          <input id="amount" type="number" />
+          <input id="amount" type="number" required/>
         </label>
         <label htmlFor="invoice-status">
           Status
@@ -31,9 +31,10 @@ export default async function CreatePage() {
             name="invoice-status"
             id="pending"
             value="pending"
+            required
           />
           <label htmlFor="pending">Pending</label>
-          <input type="radio" name="invoice-status" id="paid" value="paid" />
+          <input type="radio" name="invoice-status" id="paid" value="paid" required/>
           <label htmlFor="paid">Paid</label>
         </label>
         <button type="submit">Create</button>
