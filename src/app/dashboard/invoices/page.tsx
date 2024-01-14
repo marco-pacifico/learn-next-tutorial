@@ -11,7 +11,7 @@ export default async function InvoicesPage() {
             <ul>
                 {invoices.map((invoice) => (
                     <li key={invoice.id}>
-                        <Link href={`/dashboard/invoices/${invoice.id}`}>
+                        <Link href={`/dashboard/invoices/${invoice.id}/edit`}>
                             {invoice.amount}
                         </Link>
                     </li>
