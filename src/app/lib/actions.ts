@@ -54,6 +54,7 @@ export async function updateInvoice(id: string, formData: FormData) {
 
     // Revalidate the invoices page
     revalidatePath("/dashboard/invoices");
+    revalidatePath(`/dashboard/invoices/${id}/edit`);
     // Redirect to the invoices page
     redirect("/dashboard/invoices");
 }

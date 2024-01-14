@@ -3,6 +3,7 @@ import { fetchInvoiceById } from "@/app/lib/data";
 
 export default async function EditInvoice({ params }: { params: { id: string } }) {
     const invoice = await fetchInvoiceById(params.id);
+    console.log({invoice});
   return (
     <>
       <h1>Edit Invoice {params.id} </h1>

@@ -3,6 +3,7 @@ import { sql } from "@vercel/postgres";
 
 export default async function InvoicesPage() {
     const invoices = (await sql`SELECT * FROM invoices`).rows;
+    console.log({ invoices });
     return (
         <>
             <h1>Invoice</h1>
