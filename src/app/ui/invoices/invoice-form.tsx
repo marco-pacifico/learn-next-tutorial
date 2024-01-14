@@ -25,7 +25,7 @@ export function EditInvoiceForm({ invoice }: { invoice: InvoiceForm }) {
 async function FormFields({ invoice }: { invoice?: InvoiceForm }) {
   const customers = await fetchCustomers();
   const { customer_id, amount, status } = invoice || {
-    id: undefined,
+    customer_id: undefined,
     amount: undefined,
     status: undefined,
   };
