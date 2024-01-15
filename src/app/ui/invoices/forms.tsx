@@ -1,9 +1,9 @@
-import {CreateInvoice, UpdateInvoice} from "./buttons";
-import { fetchCustomers } from "@/app/lib/data";
+"use client";
 import { InvoiceForm } from "@/app/lib/definitions";
-import { createInvoice, updateInvoice } from "@/app/lib/actions";
-import { deleteInvoice } from "@/app/lib/actions";
-import { DeleteButton } from "@/app/ui/invoices/buttons";
+import { fetchCustomers } from "@/app/lib/data";
+import { createInvoice, updateInvoice, deleteInvoice } from "@/app/lib/actions";
+import {CreateInvoice, UpdateInvoice, DeleteButton} from "./buttons";
+import { useFormState } from "react-dom";
 
 export  function DeleteInvoice({ id }: { id: string }) {
   const deleteInvoiceWithId = deleteInvoice.bind(null, id);
@@ -15,8 +15,13 @@ export  function DeleteInvoice({ id }: { id: string }) {
 }
 
 export function CreateInvoiceForm() {
+  const initialState = {
+    messsage: null,
+    errors: {},
+  };
+  const [state, dispatch] = useFormState(createInvoice, initialState);
   return (
-    <form action={createInvoice} className="flex flex-col">
+    <form action={dispatch} className="flex flex-col">
       <FormFields />
       <CreateInvoice />
     </form>
