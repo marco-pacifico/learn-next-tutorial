@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { sql } from "@vercel/postgres";
-import DeleteInvoice from "@/app/ui/invoices/delete-button";
+import { DeleteInvoice } from "@/app/ui/invoices/forms";
 
 export default async function InvoicesPage() {
     const invoices = (await sql`SELECT * FROM invoices`).rows;

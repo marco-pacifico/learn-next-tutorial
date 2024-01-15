@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { CreateInvoiceForm } from "@/app/ui/invoices/invoice-form";
+import { CreateInvoiceForm } from "@/app/ui/invoices/forms";
 
 
 export default async function CreatePage() {

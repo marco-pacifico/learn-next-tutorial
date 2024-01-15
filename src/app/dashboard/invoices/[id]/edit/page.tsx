@@ -1,4 +1,4 @@
-import { EditInvoiceForm } from "@/app/ui/invoices/invoice-form";
+import { EditInvoiceForm } from "@/app/ui/invoices/forms";
 import { fetchInvoiceById } from "@/app/lib/data";
 
 export default async function EditInvoice({ params }: { params: { id: string } }) {

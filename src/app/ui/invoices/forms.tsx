@@ -1,7 +1,18 @@
-import {CreateInvoice, UpdateInvoice} from "../SubmitButton";
+import {CreateInvoice, UpdateInvoice} from "./buttons";
 import { fetchCustomers } from "@/app/lib/data";
 import { InvoiceForm } from "@/app/lib/definitions";
 import { createInvoice, updateInvoice } from "@/app/lib/actions";
+import { deleteInvoice } from "@/app/lib/actions";
+import { DeleteButton } from "@/app/ui/invoices/buttons";
+
+export  function DeleteInvoice({ id }: { id: string }) {
+  const deleteInvoiceWithId = deleteInvoice.bind(null, id);
+  return (
+    <form action={deleteInvoiceWithId}>
+      <DeleteButton />
+    </form>
+  );
+}
 
 export function CreateInvoiceForm() {
   return (
