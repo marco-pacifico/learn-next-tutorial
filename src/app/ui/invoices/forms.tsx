@@ -45,7 +45,7 @@ async function FormFields({ invoice }: { invoice?: InvoiceForm }) {
     <>
       <label htmlFor="customer" className="flex flex-col">
         Customer
-        <select className="dark:bg-slate-900" name="customerId" id="customer" required defaultValue={customer_id}>
+        <select className="dark:bg-slate-900" name="customerId" id="customer" defaultValue={customer_id}>
           <option value="" disabled>
             Select a customer
           </option>
@@ -63,7 +63,6 @@ async function FormFields({ invoice }: { invoice?: InvoiceForm }) {
           name="amount"
           id="amount"
           type="number"
-          required
           defaultValue={amount}
         />
       </label>
@@ -74,7 +73,6 @@ async function FormFields({ invoice }: { invoice?: InvoiceForm }) {
           name="status"
           id="pending"
           value="pending"
-          required
           defaultChecked={status === "pending"}
         />
         <label htmlFor="pending">Pending</label>
@@ -83,7 +81,6 @@ async function FormFields({ invoice }: { invoice?: InvoiceForm }) {
           name="status"
           id="paid"
           value="paid"
-          required
           defaultChecked={status === "paid"}
         />
         <label htmlFor="paid">Paid</label>
