@@ -23,16 +23,21 @@ export async function createInvoice(formData: FormData) {
   const amountInCents = amount * 100;
   const date = new Date().toISOString().split("T")[0];
 
-  // Insert the invoice into the database
-  await sql`
+  try {
+    // Insert the invoice into the database
+    await sql`
     INSERT INTO invoices (customer_id, amount, status, date)
     VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
     `;
-
-    // Revalidate the invoices page
-    revalidatePath("/dashboard/invoices");
-    // Redirect to the invoices page
-    redirect("/dashboard/invoices");
+  } catch (error) {
+    return {
+      message: "Database Error: Failed to Create Invoice.",
+    };
+  }
+  // Revalidate the invoices page
+  revalidatePath("/dashboard/invoices");
+  // Redirect to the invoices page
+  redirect("/dashboard/invoices");
 }
 
 const UpdateInvoice = FormSchema.omit({ id: true, date: true });
@@ -45,26 +50,36 @@ export async function updateInvoice(id: string, formData: FormData) {
   });
   const amountInCents = amount * 100;
 
-  // Update the invoice in the database
-  await sql`
+  try {
+    // Update the invoice in the database
+    await sql`
     UPDATE invoices
     SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
     WHERE id = ${id}
     `;
-
-    // Revalidate the invoices page
-    revalidatePath("/dashboard/invoices");
-    revalidatePath(`/dashboard/invoices/${id}/edit`);
-    // Redirect to the invoices page
-    redirect("/dashboard/invoices");
+  } catch (error) {
+    return {
+      message: "Database Error: Failed to Update Invoice.",
+    };
+  }
+  // Revalidate the invoices page
+  revalidatePath("/dashboard/invoices");
+  revalidatePath(`/dashboard/invoices/${id}/edit`);
+  // Redirect to the invoices page
+  redirect("/dashboard/invoices");
 }
 
 export async function deleteInvoice(id: string) {
-  await sql`
+  try {
+    await sql`
     DELETE FROM invoices
     WHERE id = ${id}
   `;
-
+  } catch (error) {
+    return {
+      message: "Database Error: Failed to Delete Invoice.",
+    };
+  }
   // Revalidate the invoices page
   revalidatePath("/dashboard/invoices");
   // Redirect to the invoices page
