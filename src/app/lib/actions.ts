@@ -3,6 +3,10 @@ import { z } from "zod";
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { signIn } from "../../../auth";
+import { AuthError } from 'next-auth';
+
+
 // Create a schema for the form data
 // validate that the data from your form aligns with the expected types in your database
 const FormSchema = z.object({
@@ -123,4 +127,23 @@ export async function deleteInvoice(id: string) {
   revalidatePath("/dashboard/invoices");
   // Redirect to the invoices page
   redirect("/dashboard/invoices");
+}
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  try {
+    await signIn('credentials', formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.';
+        default:
+          return 'Something went wrong.';
+      }
+    }
+    throw error;
+  }
 }

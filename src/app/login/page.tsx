@@ -1,4 +1,5 @@
 import Link from "next/link";
+import LoginForm from "../ui/login/login-form";
 
 export default function LoginPage() {
   return (
@@ -9,6 +10,7 @@ export default function LoginPage() {
       <p>form goes here...</p>
       <p>For now just go to the dashboard</p>
       <Link href="/dashboard">Go to dashboard</Link>
+      <LoginForm />
     </main>
   );
 }
