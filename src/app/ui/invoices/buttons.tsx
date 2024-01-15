@@ -1,5 +1,6 @@
 "use client";
 import { useFormStatus } from "react-dom";
+import { deleteInvoice } from "@/app/lib/actions";
 
 export function CreateInvoice() {
   const { pending } = useFormStatus(); 
@@ -29,3 +30,15 @@ export function UpdateInvoice() {
   );
 }
 
+export function DeleteButton() {
+  const { pending } = useFormStatus(); 
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+    >
+      {pending ? "Deleting..." : "Delete"}
+    </button>
+
+  );
+}
