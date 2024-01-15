@@ -19,10 +19,7 @@ export function DeleteInvoice({ id }: { id: string }) {
 }
 
 export function CreateInvoiceForm({ customers }: { customers: CustomerField[]}) {
-  const initialState = {
-    messsage: null,
-    errors: {},
-  };
+  const initialState = { message: null, errors: {} };
   const [state, dispatch] = useFormState(createInvoice, initialState);
   return (
     <form action={dispatch} className="flex flex-col">
@@ -33,10 +30,13 @@ export function CreateInvoiceForm({ customers }: { customers: CustomerField[]}) 
 }
 
 export function EditInvoiceForm({ invoice, customers }: { invoice: InvoiceForm, customers: CustomerField[] }) {
+  
+  const initialState = { message: null, errors: {} };
   const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
+  const [state, dispatch] = useFormState(updateInvoiceWithId, initialState);
   return (
-    <form action={updateInvoiceWithId} className="flex flex-col">
-      <FormFields invoice={invoice} customers={customers}/>
+    <form action={dispatch} className="flex flex-col">
+      <FormFields invoice={invoice} customers={customers} state={state}/>
       <UpdateInvoice />
     </form>
   );
@@ -94,8 +94,17 @@ function FormFields({
           id="amount"
           type="number"
           defaultValue={amount}
+          aria-describedby="amount-error"
         />
       </label>
+      <div id="amount-error" aria-live="polite" aria-atomic="true">
+        {state?.errors?.amount &&
+          state.errors.amount.map((error: string) => (
+            <p className="mt-2 text-sm text-red-500" key={error}>
+              {error}
+            </p>
+          ))}
+      </div>
       <label htmlFor="invoice-status">
         Status
         <input
@@ -104,6 +113,7 @@ function FormFields({
           id="pending"
           value="pending"
           defaultChecked={status === "pending"}
+          aria-describedby="status-error"
         />
         <label htmlFor="pending">Pending</label>
         <input
@@ -112,8 +122,17 @@ function FormFields({
           id="paid"
           value="paid"
           defaultChecked={status === "paid"}
+          aria-describedby="status-error"
         />
         <label htmlFor="paid">Paid</label>
+        <div id="status-error" aria-live="polite" aria-atomic="true">
+        {state?.errors?.status &&
+          state.errors.status.map((error: string) => (
+            <p className="mt-2 text-sm text-red-500" key={error}>
+              {error}
+            </p>
+          ))}
+      </div>
       </label>
     </>
   );
