@@ -1,5 +1,5 @@
 import { EditInvoiceForm } from "@/app/ui/invoices/forms";
-import { fetchInvoiceById } from "@/app/lib/data";
+import { fetchInvoiceById, fetchCustomers } from "@/app/lib/data";
 import { notFound } from "next/navigation";
 
 export default async function EditInvoice({
@@ -7,7 +7,10 @@ export default async function EditInvoice({
 }: {
   params: { id: string };
 }) {
-  const invoice = await fetchInvoiceById(params.id);
+  const [invoice, customers] = await Promise.all([
+    fetchInvoiceById(params.id),
+    fetchCustomers(),
+  ]);
   if (!invoice) {
     return notFound();
   }
@@ -15,7 +18,7 @@ export default async function EditInvoice({
     <>
       <h1>Edit Invoice {params.id} </h1>
       <p>Edit invoice page</p>
-      <EditInvoiceForm invoice={invoice} />
+      <EditInvoiceForm invoice={invoice} customers={customers}/>
     </>
   );
 }
