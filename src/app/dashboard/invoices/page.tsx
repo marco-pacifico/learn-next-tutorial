@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { sql } from "@vercel/postgres";
+import { deleteInvoice } from "@/app/lib/actions";
 
 export default async function InvoicesPage() {
     const invoices = (await sql`SELECT * FROM invoices`).rows;
@@ -15,6 +16,7 @@ export default async function InvoicesPage() {
                         <Link href={`/dashboard/invoices/${invoice.id}/edit`}>
                             {invoice.amount}
                         </Link>
+                       
                     </li>
                 ))}
             </ul>
