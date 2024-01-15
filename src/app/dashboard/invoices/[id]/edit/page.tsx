@@ -1,9 +1,16 @@
 import { EditInvoiceForm } from "@/app/ui/invoices/forms";
 import { fetchInvoiceById } from "@/app/lib/data";
+import { notFound } from "next/navigation";
 
-export default async function EditInvoice({ params }: { params: { id: string } }) {
-    const invoice = await fetchInvoiceById(params.id);
-    console.log({invoice});
+export default async function EditInvoice({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const invoice = await fetchInvoiceById(params.id);
+  if (!invoice) {
+    return notFound();
+  }
   return (
     <>
       <h1>Edit Invoice {params.id} </h1>
