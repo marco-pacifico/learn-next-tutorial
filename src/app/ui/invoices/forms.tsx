@@ -19,8 +19,8 @@ export function DeleteInvoice({ id }: { id: string }) {
 }
 
 export function CreateInvoiceForm({ customers }: { customers: CustomerField[]}) {
-  const initialState = { message: null, errors: {} };
-  const [state, dispatch] = useFormState(createInvoice, initialState);
+  const initialState = { message: "", errors: {} };
+  const [state, dispatch] = useFormState(createInvoice, initialState)
   return (
     <form action={dispatch} className="flex flex-col">
       <FormFields state={state} customers={customers}/>
@@ -31,7 +31,7 @@ export function CreateInvoiceForm({ customers }: { customers: CustomerField[]}) 
 
 export function EditInvoiceForm({ invoice, customers }: { invoice: InvoiceForm, customers: CustomerField[] }) {
   
-  const initialState = { message: null, errors: {} };
+  const initialState = { message: "", errors: {} };
   const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
   const [state, dispatch] = useFormState(updateInvoiceWithId, initialState);
   return (
