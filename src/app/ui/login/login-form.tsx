@@ -22,7 +22,7 @@ export default function LoginForm() {
             </label>
             <div className="relative">
               <input
-                
+                className="text-gray-900"
                 id="email"
                 type="email"
                 name="email"
@@ -41,7 +41,7 @@ export default function LoginForm() {
             </label>
             <div className="relative">
               <input
-                
+                className="text-gray-900"
                 id="password"
                 type="password"
                 name="password"
@@ -74,7 +74,7 @@ function LoginButton() {
  
   return (
     <button className="mt-4 w-full" aria-disabled={pending}>
-      Log in
+      {pending ? 'Logging in...' : 'Log in'}
     </button>
   );
 }
