@@ -1,6 +1,5 @@
 "use client";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 export default function Pagination({ totalPages }: { totalPages: number }) {
   const searchParams = useSearchParams();
@@ -14,24 +13,18 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
     replace(`${pathname}?${params.toString()}`);
   }
 
-  // If there is only one page, don't show pagination
-  let message;
-  if (totalPages === 1) {
-    message = "Page 1 of 1";
-  } else if (totalPages === 0) {
-    message = "No results";
-  } else {
-    message = `Page ${currentPage} of ${totalPages}`;
-  }
+  // If there are no invoices, don't show pagination
+  if (totalPages === 0) return null;
 
   return (
     <div className="flex my-4 mr-4">
-      <p className="flex-1">{message}</p>
+      <p className="flex-1">{`Page ${currentPage} of ${totalPages}`}</p>
       <div className="flex gap-4">
+        {/* Previous Button: Only show if past page 1 */}
         {currentPage > 1 && (
           <button onClick={() => updateUrl(currentPage - 1)}>Previous</button>
         )}
-
+        {/* Next Button: Only show if there's more than one page */}
         {totalPages > 1 && (
           <button
             onClick={() => updateUrl(currentPage + 1)}

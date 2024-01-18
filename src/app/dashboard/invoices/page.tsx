@@ -1,10 +1,12 @@
 import Link from "next/link";
-import { DeleteInvoice } from "@/app/ui/invoices/forms";
+// import { DeleteInvoice } from "@/app/ui/invoices/forms";
 import Search from "@/app/ui/search";
+import InvoiceList from "@/app/ui/invoices/invoice-list";
 import Pagination from "@/app/ui/pagination";
-import { fetchFilteredInvoices, fetchInvoicesPages } from "@/app/lib/data";
+import { fetchInvoicesPages } from "@/app/lib/data";
 
 import { Metadata } from "next";
+import { Suspense } from "react";
 export const metadata: Metadata = {
   title: "Invoices",
 };
@@ -17,39 +19,33 @@ export default async function InvoicesPage({
     page?: string;
   };
 }) {
-  const search = searchParams.search || "";
-  const currentPage = Number(searchParams.page) || 1;
-  console.log(currentPage);
-  const totalPages = await fetchInvoicesPages(search);
-  // If user manually enters a page parameter that's greater than total pages, fetch results from the last page
-  const pageToFetch = currentPage > totalPages ? totalPages : currentPage;
-  const invoices = await fetchFilteredInvoices(search, pageToFetch);
+  const searchTerm = searchParams.search || "";
+  const currentPage = Number(searchParams.page) || 1; // If page zero or null, default to 1
+  const totalPages = await fetchInvoicesPages(searchTerm);
 
   return (
     <>
       <h1 className="text-3xl my-4">Invoices</h1>
-
-      <div className="flex gap-8 justify-between items-center mb-4">
-        <Search />
-        <Link href="/dashboard/invoices/create" className="px-4 py-2">
-          Create invoice
-        </Link>
-      </div>
-
-      <ul>
-        {invoices.map((invoice) => (
-          <li key={invoice.id} className="flex justify-between border-b py-2">
-            <div className="flex gap-6 w-full">
-              <p className="flex-1">{invoice.name}</p>
-              <p className="w-20">{invoice.status}</p>
-              <p className="w-10 text-right mr-4">${invoice.amount / 100}</p>
-              <Link href={`/dashboard/invoices/${invoice.id}/edit`}>Edit</Link>
-              <DeleteInvoice id={invoice.id} />
-            </div>
-          </li>
-        ))}
-      </ul>
+      <Controls />
+      <Suspense fallback={<p>Loading...</p>}>
+        <InvoiceList
+          searchTerm={searchTerm}
+          currentPage={currentPage}
+          totalPages={totalPages}
+        />
+      </Suspense>
       <Pagination totalPages={totalPages} />
     </>
+  );
+}
+
+function Controls() {
+  return (
+    <div className="flex gap-8 justify-between items-center mb-4">
+      <Search />
+      <Link href="/dashboard/invoices/create" className="px-4 py-2">
+        Create invoice
+      </Link>
+    </div>
   );
 }
