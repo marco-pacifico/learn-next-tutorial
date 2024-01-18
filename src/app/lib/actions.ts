@@ -159,6 +159,7 @@ export type NewUserState = {
   message?: string | null;
 };
 
+
 export async function createUser(prevState: NewUserState, formData: FormData) {
   // Use zod to validate the form fields
   const validatedFields = CreateUser.safeParse({
@@ -185,14 +186,17 @@ export async function createUser(prevState: NewUserState, formData: FormData) {
 
   if (existingUser) {
     return {
-      errors: { email: ["Email already exists"] }
+      errors: { 
+        name: [],
+        email: ["Email already exists"], 
+        password: [],
+      },
+      message: "Failed to Create User.",
     } 
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const id = randomUUID();
-
-  
 
   try {
     await sql`
