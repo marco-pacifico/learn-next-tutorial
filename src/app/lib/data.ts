@@ -19,7 +19,9 @@ export async function fetchRevenue() {
   try {
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
+    console.log("Fetching revenue...");
     await new Promise((resolve) => setTimeout(resolve, 3000));
+    console.log('Data fetch completed after 3 seconds.');
 
     const data = await sql<Revenue>`SELECT * FROM revenue`;
 
@@ -37,7 +39,9 @@ export async function fetchLatestInvoices() {
   try {
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
+    console.log("Fetching latest invoices...");
     await new Promise((resolve) => setTimeout(resolve, 3000));
+    console.log('Data fetch completed after 3 seconds.');
 
     const data = await sql<LatestInvoiceRaw>`
       SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
@@ -62,7 +66,9 @@ export async function fetchCardData() {
   try {
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
+    console.log("Fetching card data...");
     await new Promise((resolve) => setTimeout(resolve, 3000));
+    console.log('Data fetch completed after 3 seconds.');
 
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
@@ -108,7 +114,9 @@ export async function fetchFilteredInvoices(
   try {
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
+    console.log("Fetching invoices...");
     await new Promise((resolve) => setTimeout(resolve, 3000));
+    console.log('Data fetch completed after 3 seconds.');
 
     const invoices = await sql<InvoicesTable>`
       SELECT
@@ -143,7 +151,9 @@ export async function fetchInvoicesPages(query: string) {
   try {
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
+    console.log("Fetching invoices pages...");
     await new Promise((resolve) => setTimeout(resolve, 3000));
+    console.log('Data fetch completed after 3 seconds.');
 
     const count = await sql`SELECT COUNT(*)
     FROM invoices
@@ -169,7 +179,9 @@ export async function fetchInvoiceById(id: string) {
   try {
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
+    console.log("Fetching invoice by ID...");
     await new Promise((resolve) => setTimeout(resolve, 3000));
+    console.log('Data fetch completed after 3 seconds.');
 
     const data = await sql<InvoiceForm>`
       SELECT
@@ -199,7 +211,9 @@ export async function fetchCustomers() {
   try {
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
+    console.log("Fetching customers...");
     await new Promise((resolve) => setTimeout(resolve, 3000));
+    console.log('Data fetch completed after 3 seconds.');
 
     const data = await sql<CustomerField>`
       SELECT
@@ -222,7 +236,9 @@ export async function fetchFilteredCustomers(query: string) {
   try {
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
+    console.log("Fetching filtered customers...");
     await new Promise((resolve) => setTimeout(resolve, 3000));
+    console.log('Data fetch completed after 3 seconds.');
 
     const data = await sql<CustomersTableType>`
 		SELECT
@@ -261,8 +277,10 @@ export async function getUser(email: string) {
   try {
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
+    console.log("Fetching user...");
     await new Promise((resolve) => setTimeout(resolve, 3000));
-    
+    console.log('Data fetch completed after 3 seconds.');
+
     const user = await sql`SELECT * FROM users WHERE email=${email}`;
     return user.rows[0] as User;
   } catch (error) {

@@ -1,12 +1,8 @@
+import { Suspense } from "react";
 import Link from "next/link";
-// import { DeleteInvoice } from "@/app/ui/invoices/forms";
 import Search from "@/app/ui/search";
 import InvoiceList from "@/app/ui/invoices/invoice-list";
-import Pagination from "@/app/ui/pagination";
-import { fetchInvoicesPages } from "@/app/lib/data";
-
 import { Metadata } from "next";
-import { Suspense } from "react";
 export const metadata: Metadata = {
   title: "Invoices",
 };
@@ -21,7 +17,6 @@ export default async function InvoicesPage({
 }) {
   const searchTerm = searchParams.search || "";
   const currentPage = Number(searchParams.page) || 1; // If page zero or null, default to 1
-  const totalPages = await fetchInvoicesPages(searchTerm);
 
   return (
     <>
@@ -31,10 +26,8 @@ export default async function InvoicesPage({
         <InvoiceList
           searchTerm={searchTerm}
           currentPage={currentPage}
-          totalPages={totalPages}
         />
       </Suspense>
-      <Pagination totalPages={totalPages} />
     </>
   );
 }

@@ -33,8 +33,10 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
           >
             Next
           </button>
+        
         )}
       </div>
     </div>
   );
 }
+
