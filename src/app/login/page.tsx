@@ -11,6 +11,7 @@ export default function LoginPage() {
       <p>For now just go to the dashboard</p>
       <Link href="/dashboard">Go to dashboard</Link>
       <LoginForm />
+      <Link href="/signup">Sign up</Link>
     </main>
   );
 }
