@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { sql } from "@vercel/postgres";
 import { DeleteInvoice } from "@/app/ui/invoices/forms";
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  title: 'Invoices',
+};
 
 export default async function InvoicesPage() {
     const invoices = (await sql`SELECT * FROM invoices`).rows;

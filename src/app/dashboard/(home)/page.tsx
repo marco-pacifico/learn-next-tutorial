@@ -1,13 +1,13 @@
 import { sql } from '@vercel/postgres';
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  title: 'Overview',
+};
 
 export default async function DashboardHomePage() {
     const users = (await sql`SELECT * FROM users`).rows;
     const invoices = (await sql`SELECT * FROM invoices`).rows;
     const customers = (await sql`SELECT * FROM customers`).rows;
-  
-
-
-
     return (
         <>
             <h1>Dashboard Home</h1>
