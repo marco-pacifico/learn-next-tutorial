@@ -184,7 +184,7 @@ export async function createUser(prevState: NewUserState, formData: FormData) {
     WHERE email = ${email}
   `).rows;
 
-  if (existingUser) {
+  if (existingUser.length > 0) {
     return {
       errors: { 
         name: [],
