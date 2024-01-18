@@ -142,7 +142,7 @@ export async function authenticate(
 
 // Expected shape of data from the form
 const CreateUser = z.object({
-  name: z.string().regex(/^[A-Za-z]+$/, {
+  name: z.string().regex(/^[A-Za-z ]+$/, {
     message: "Name must contain only alphabetic characters",
   }),
   email: z.string().email(),
