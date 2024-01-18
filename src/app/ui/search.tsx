@@ -11,8 +11,10 @@ export default function Search() {
     const params = new URLSearchParams(searchParams);
     if (value) {
       params.set("search", value);
+      params.set("page", "1");
     } else {
       params.delete("search");
+      params.delete("page");
     }
     replace(`${pathname}?${params.toString()}`);
   }

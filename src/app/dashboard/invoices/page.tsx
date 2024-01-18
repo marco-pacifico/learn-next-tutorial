@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { DeleteInvoice } from "@/app/ui/invoices/forms";
 import Search from "@/app/ui/search";
-import { fetchFilteredInvoices } from "@/app/lib/data";
+import Pagination from "@/app/ui/pagination";
+import { fetchFilteredInvoices, fetchInvoicesPages } from "@/app/lib/data";
 
 import { Metadata } from "next";
 export const metadata: Metadata = {
@@ -17,8 +18,12 @@ export default async function InvoicesPage({
   };
 }) {
   const search = searchParams.search || "";
-  const currentPage = searchParams.page ? parseInt(searchParams.page) : 1;
-  const invoices = await fetchFilteredInvoices(search, currentPage);
+  const currentPage = Number(searchParams.page) || 1;
+  console.log(currentPage);
+  const totalPages = await fetchInvoicesPages(search);
+  // If user manually enters a page parameter that's greater than total pages, fetch results from the last page
+  const pageToFetch = currentPage > totalPages ? totalPages : currentPage;
+  const invoices = await fetchFilteredInvoices(search, pageToFetch);
 
   return (
     <>
@@ -26,7 +31,9 @@ export default async function InvoicesPage({
 
       <div className="flex gap-8 justify-between items-center mb-4">
         <Search />
-        <Link href="/dashboard/invoices/create" className="px-4 py-2">Create invoice</Link>
+        <Link href="/dashboard/invoices/create" className="px-4 py-2">
+          Create invoice
+        </Link>
       </div>
 
       <ul>
@@ -42,6 +49,7 @@ export default async function InvoicesPage({
           </li>
         ))}
       </ul>
+      <Pagination totalPages={totalPages} />
     </>
   );
 }

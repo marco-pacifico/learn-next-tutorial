@@ -92,6 +92,9 @@ export async function fetchFilteredInvoices(
   query: string,
   currentPage: number,
 ) {
+  // if (currentPage < 1) {
+  //   throw new Error('Invalid page number.');
+  // }
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
