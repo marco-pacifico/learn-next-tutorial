@@ -1,29 +1,44 @@
+import { Suspense } from "react";
 import Link from "next/link";
-import { sql } from "@vercel/postgres";
-import { DeleteInvoice } from "@/app/ui/invoices/forms";
+import Search from "@/app/ui/search";
+import InvoiceList from "@/app/ui/invoices/invoice-list";
 import { Metadata } from "next";
 export const metadata: Metadata = {
-  title: 'Invoices',
+  title: "Invoices",
 };
 
-export default async function InvoicesPage() {
-    const invoices = (await sql`SELECT * FROM invoices`).rows;
-    console.log({ invoices });
-    return (
-        <>
-            <h1>Invoice</h1>
-            <p>Invoice page</p>
-            <Link href="/dashboard/invoices/create">Create invoice</Link>
-            <ul>
-                {invoices.map((invoice) => (
-                    <li key={invoice.id} className="flex justify-between border-b py-2">
-                        <Link href={`/dashboard/invoices/${invoice.id}/edit`}>
-                            ${invoice.amount / 100}
-                        </Link>
-                        <DeleteInvoice id={invoice.id} />
-                    </li>
-                ))}
-            </ul>
-        </>
-    );
+export default async function InvoicesPage({
+  searchParams,
+}: {
+  searchParams: {
+    search?: string;
+    page?: string;
+  };
+}) {
+  const searchTerm = searchParams.search || "";
+  const currentPage = Number(searchParams.page) || 1; // If page zero or null, default to 1
+
+  return (
+    <>
+      <h1 className="text-3xl my-4">Invoices</h1>
+      <Controls />
+      <Suspense fallback={<p>Loading...</p>}>
+        <InvoiceList
+          searchTerm={searchTerm}
+          currentPage={currentPage}
+        />
+      </Suspense>
+    </>
+  );
+}
+
+function Controls() {
+  return (
+    <div className="flex gap-8 justify-between items-center mb-4">
+      <Search />
+      <Link href="/dashboard/invoices/create" className="px-4 py-2">
+        Create invoice
+      </Link>
+    </div>
+  );
 }
