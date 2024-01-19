@@ -7,21 +7,14 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
   const pathname = usePathname();
   const { replace } = useRouter();
   const currentPage = Number(searchParams.get("page")) || 1;
-
   const [pending, startTransition] = useTransition();
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout>();
 
   function updateUrl(page: number | string) {
-    clearTimeout(timeoutId);
-    let id = setTimeout(() => {
-      startTransition(() => {
-        const params = new URLSearchParams(searchParams);
-        params.set("page", page.toString());
-        replace(`${pathname}?${params.toString()}`);
-      });
-    }, 1000);
-    
-    setTimeoutId(id);
+    startTransition(() => {
+      const params = new URLSearchParams(searchParams);
+      params.set("page", page.toString());
+      replace(`${pathname}?${params.toString()}`);
+    });
   }
 
   // If there are no invoices, don't show pagination
