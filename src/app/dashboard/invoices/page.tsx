@@ -22,11 +22,11 @@ export default async function InvoicesPage({
     <>
       <h1 className="text-3xl my-4">Invoices</h1>
       <Controls />
-      <Suspense fallback={<p>Loading...</p>}>
-        <InvoiceList
-          searchTerm={searchTerm}
-          currentPage={currentPage}
-        />
+      <Suspense
+        key={`${searchTerm}-${currentPage}`}
+        fallback={<p>Loading...</p>}
+      >
+        <InvoiceList searchTerm={searchTerm} currentPage={currentPage} />
       </Suspense>
     </>
   );
